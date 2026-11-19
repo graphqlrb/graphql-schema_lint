@@ -12,8 +12,7 @@ module GraphQL
       # @api public
       def report(member, key, related: [], subject: nil, **arguments)
         if member.is_a?(LintCore::TypeInfo)
-          message = locale == "ja" ? "型の拡張定義" : "Type extension"
-          related += member.extension_locations.map { |location| {location:, message:} }
+          related += member.extension_locations.map { |location| {location:, message: "Type extension"} }
         elsif member.is_a?(LintCore::DirectiveApplication)
           subject ||= {kind: "directive_application", target: member.target.coordinate, directive: member.name, index: member.index}
         end

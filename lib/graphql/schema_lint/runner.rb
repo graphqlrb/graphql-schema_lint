@@ -88,8 +88,7 @@ module GraphQL
         LintCore::SchemaLoader.load(schema.fetch("sources"),
           prelude: schema.fetch("prelude", []),
           skip_checks: schema.fetch("skip_checks", []),
-          emit_generated_sdl: settings["emit_generated_sdl"], repository: settings.dig("git", "repository"),
-          locale: settings.fetch("locale", "en"))
+          emit_generated_sdl: settings["emit_generated_sdl"], repository: settings.dig("git", "repository"))
       end
 
       def today(settings)
@@ -100,8 +99,6 @@ module GraphQL
       end
 
       def run_rules(active, settings, context, diagnostics)
-        locale = settings.fetch("locale", "en")
-        translations = Psych.safe_load_file(File.join(PACKAGE, "locales/#{locale}.yml")).fetch("rules")
         source_limited = context[:sources].any? { |source| %i[ruby introspection].include?(source.kind) }
         skipped = []
         walker = Walker.new(context[:index])
@@ -113,7 +110,7 @@ module GraphQL
           end
 
           reports = []
-          rule = klass.new(options:, severity:, locale:, diagnostics: reports, translations: translations.fetch(klass.id, {}))
+          rule = klass.new(options:, severity:, diagnostics: reports)
           rule.setup(context)
           walker.each_event { |event, member| rule.public_send(event, member) }
           rule.finish
@@ -126,11 +123,7 @@ module GraphQL
         end
 
         unless skipped.empty?
-          details = if locale == "ja"
-            "この入力では実行できないルール: #{skipped.sort.join(", ")}"
-          else
-            "Rules requiring original SDL were skipped: #{skipped.sort.join(", ")}"
-          end
+          details = "Rules requiring original SDL were skipped: #{skipped.sort.join(", ")}"
           prior = diagnostics.select { |report| report.rule_id == "core/limited-input" }
           diagnostics.reject! { |report| report.rule_id == "core/limited-input" }
           message = (prior.map(&:message) << details).join(" ")

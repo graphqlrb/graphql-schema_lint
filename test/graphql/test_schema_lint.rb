@@ -118,9 +118,11 @@ class TestSchemaLint < Minitest::Test
     assert_equal ["warning"], result.reportable.map { |diagnostic| diagnostic.severity.to_s }
   end
 
-  def test_localized_rule_message
-    result = run_sdl("type Query { id: ID }", "locale" => "ja", "rules" => {"require-description" => true})
-    assert_equal "Query に説明文がありません。", result.reportable.fetch(0).message
+  def test_required_description_diagnostic
+    result = run_sdl("type Query { id: ID }", "rules" => {"require-description" => true})
+    diagnostic = result.reportable.fetch(0)
+    assert_equal "Query has no description.", diagnostic.message
+    assert_equal "Add a GraphQL description before the definition.", diagnostic.suggestion
   end
 
   def test_cli_reports_a_positional_schema_and_writes_two_formats
@@ -224,20 +226,8 @@ class TestSchemaLint < Minitest::Test
     assert_empty result.reportable
   end
 
-  def test_rule_inventory_has_all_examples_and_translations
-    rules = GraphQL::SchemaLint::BUILTINS
-    assert_equal rules.keys.sort, CASES.keys.sort
-
-    %w[en ja].each do |locale|
-      file = File.expand_path("../../locales/#{locale}.yml", __dir__)
-      translations = Psych.safe_load_file(file).fetch("rules")
-      assert_equal rules.keys.sort, translations.keys.sort
-      rules.each do |id, rule|
-        entry = translations.fetch(id)
-        assert_equal rule.messages.keys.sort, (entry.keys - ["suggestions"]).sort
-        assert_equal rule.suggestions.keys.sort, entry.fetch("suggestions").keys.sort
-      end
-    end
+  def test_rule_inventory_has_all_examples
+    assert_equal GraphQL::SchemaLint::BUILTINS.keys.sort, CASES.keys.sort
   end
 
   private

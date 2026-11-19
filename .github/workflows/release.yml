@@ -28,7 +28,7 @@ jobs:
           bundle install
           version=$(bundle exec ruby -e 'print Gem::Specification.load("graphql-schema_lint.gemspec").version')
           test "v$version" = "$GITHUB_REF_NAME"
-          bundle exec rake test build
+          bundle exec rake test docs:check build
           printf 'GEM_PACKAGE=pkg/graphql-schema_lint-%s.gem\n' "$version" >> "$GITHUB_ENV"
       - uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
       - run: gem push "$GEM_PACKAGE"

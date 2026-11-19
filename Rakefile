@@ -9,3 +9,15 @@ Rake::TestTask.new do |task|
 end
 
 task default: :test
+
+namespace :docs do
+  desc "Generate the reference from gem metadata"
+  task :generate do
+    ruby "tools/generate_reference.rb"
+  end
+
+  desc "Check that the generated reference is current"
+  task :check do
+    ruby "tools/generate_reference.rb", "--check"
+  end
+end

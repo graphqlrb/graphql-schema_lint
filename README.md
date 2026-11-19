@@ -36,7 +36,9 @@ rules:
   root-field-nullability: warning
 ```
 
-Run `graphql-schema-lint rules` to list the rules and `graphql-schema-lint explain naming-convention` to see the naming options. Use `--format github`, `--format json`, or `--format sarif:lint.sarif` for CI. Exit statuses are 0 for success, 1 for a failing diagnostic, 2 for invalid input or configuration, and 3 for an internal error.
+See the [rule reference](docs/rules.md) for options and examples. Run `graphql-schema-lint rules` to see preset membership. Use `--format github`, `--format json`, or `--format sarif:lint.sarif` for CI. Exit statuses are 0 for success, 1 for a failing diagnostic, 2 for invalid input or configuration, and 3 for an internal error.
+
+To adopt the linter with existing findings, commit the baseline from `baseline update`. Run `baseline prune` after fixing recorded findings.
 
 Use only trusted configuration and Ruby schema files. Configuration `require` entries and Ruby schema inputs can execute Ruby code. For date-based deprecation rules, set `today` in the configuration or set `GRAPHQL_LINT_TODAY` to an ISO 8601 date for repeatable CI results.
 
@@ -54,7 +56,8 @@ For Rake integration, load `graphql/schema_lint/rake_task` and declare `GraphQL:
 
 ## Development
 
-Run `bundle exec rake test build` at this repository's root. This gem has its
+Run `bundle exec rake test docs:check build` at this repository's root. Run
+`bundle exec rake docs:generate` after changing rule metadata or examples. This gem has its
 own version and accepts Core 0.1.x. Before Core is published, GitHub CI can
 use a public Core checkout named by the `GRAPHQL_LINT_CORE_REPOSITORY`
 repository variable (`owner/repository`). The release workflow resolves Core
