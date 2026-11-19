@@ -1,0 +1,127 @@
+rules:
+  alphabetize:
+    suggestions:
+      violation: "Use this order: %{order}."
+    violation: "%{coordinate} is out of order."
+  connection-type-structure:
+    suggestions:
+      violation: "Define a connection object with these members: %{expected}."
+    violation: "%{coordinate} has an invalid connection structure."
+  deprecation-reason-format:
+    missing_replacement: "%{coordinate} has no valid replacement reference in its deprecation reason."
+    suggestions:
+      missing_replacement: "Reference an existing, supported element in backticks."
+      violation: "Rewrite the deprecation reason using the configured format."
+    violation: "%{coordinate} has a deprecation reason that does not match the required format."
+  description-format:
+    capitalized: "%{coordinate} starts its description with a lowercase letter."
+    end_with_period: "%{coordinate} has a description that does not end with a period."
+    forbidden_pattern: "%{coordinate} has a description matching a forbidden pattern."
+    max_length: "%{coordinate} has a description longer than %{max} characters."
+    suggestions:
+      capitalized: "Capitalize the first letter."
+      end_with_period: "End the description with a period."
+      forbidden_pattern: "Remove text that matches the forbidden pattern."
+      max_length: "Shorten the description."
+  description-style:
+    suggestions:
+      violation: "Write the description as a %{style} string."
+    violation: "%{coordinate} uses the wrong description string style."
+  directive-usage:
+    custom: "%{text}"
+    forbidden: "%{coordinate} must not use @%{directive}."
+    required: "%{coordinate} must have a valid @%{directive} directive."
+    suggestions:
+      custom: "Update the schema element to match the directive requirement."
+      forbidden: "Remove @%{directive}."
+      required: "Add @%{directive} with the configured arguments."
+      unknown: "Check the directive name and include its definition with the schema."
+    unknown: "The schema does not define @%{directive}; its directive requirement was skipped."
+  edge-type-structure:
+    suggestions:
+      violation: "Define an edge object satisfying these requirements: %{expected}."
+    violation: "%{coordinate} has an invalid edge structure."
+  mutation-input-argument:
+    suggestions:
+      violation: "Use `%{argument}: %{expected}` and keep only permitted additional arguments."
+    violation: "%{coordinate} does not group arguments in the required input object."
+  mutation-payload-fields:
+    forbidden: "%{coordinate} exposes the forbidden field `%{field}`."
+    query: "%{coordinate} does not expose a field returning the query root."
+    required: "%{coordinate} does not expose the expected `%{field}` field."
+    suggestions:
+      forbidden: "Remove `%{field}` from the payload."
+      query: "Add a field returning `%{query_type}`."
+      required: "Add `%{signature}` to the payload."
+  mutation-payload-type:
+    kind: "%{coordinate} returns a type that is not an allowed mutation payload."
+    list: "%{coordinate} returns a list instead of a single payload."
+    name: "%{coordinate} returns a payload with an unexpected name."
+    nullability: "%{coordinate} must return a %{mode} payload."
+    shared: "%{coordinate} shares its payload type with another mutation."
+    suggestions:
+      kind: "Return a dedicated payload such as `%{expected}`."
+      list: "Place the list inside a dedicated payload type."
+      name: "Name the payload type `%{expected}`."
+      nullability: "Change the payload's outer nullability."
+      shared: "Give each mutation its own payload type."
+  naming-convention:
+    configured: "%{coordinate} does not satisfy the naming convention."
+    suggestions:
+      configured: "Choose a name that matches the configured convention for this element."
+      violation: "Choose a name such as `%{replacement}`."
+    violation: "%{coordinate} does not satisfy the naming convention."
+  no-empty-description:
+    suggestions:
+      violation: "Explain what this element represents or remove the empty description."
+    violation: "%{coordinate} has an empty description."
+  no-hashtag-description:
+    suggestions:
+      violation: "Replace the comment with a GraphQL description."
+    violation: "%{coordinate} is preceded by a comment that will not appear in the schema."
+  no-typename-prefix:
+    suggestions:
+      violation: "Remove the type name prefix and use a name such as `%{replacement}`."
+    violation: "%{coordinate} repeats its type name at the start of the field name."
+  no-unpaginated-list:
+    suggestions:
+      violation: "Return a connection such as `%{type}Connection` and add pagination arguments."
+    violation: "%{coordinate} returns an unpaginated list."
+  no-unreachable-types:
+    suggestions:
+      unused: "Remove the directive definition or use it on the intended schema element."
+      violation: "Remove it or expose it from a reachable part of the schema."
+    unused: "%{coordinate} is defined but is not applied in the schema."
+    violation: "%{coordinate} is unreachable from the schema roots."
+  page-info-structure:
+    missing: "%{coordinate} is a connection, but the schema does not define `%{name}`."
+    suggestions:
+      missing: "Define the `%{name}` object with paging flags and cursor fields."
+      violation: "Define a page info object with these members: %{expected}."
+    violation: "%{coordinate} has an invalid page info structure."
+  pagination-arguments:
+    suggestions:
+      violation: "Add or correct these arguments: %{arguments}."
+    violation: "%{coordinate} does not declare the required pagination arguments."
+  require-deprecation-date:
+    overdue: "%{coordinate} is overdue for removal as of %{date}."
+    suggestions:
+      overdue: "Remove the deprecated element or update its removal date."
+      violation: "Add a removal date in the configured date format."
+    violation: "%{coordinate} is deprecated without a valid removal date."
+  require-deprecation-reason:
+    suggestions:
+      violation: "Add a reason such as @deprecated(reason: \"Use `newField` instead.\")."
+    violation: "%{coordinate} is deprecated without a reason."
+  require-description:
+    suggestions:
+      violation: "Add a GraphQL description before the definition."
+    violation: "%{coordinate} has no description."
+  root-field-nullability:
+    suggestions:
+      violation: "Change the return type to `%{type}`."
+    violation: "%{coordinate} must have a %{mode} return type."
+  strict-id-in-types:
+    suggestions:
+      violation: "Keep one identifier with an accepted name and type."
+    violation: "%{coordinate} has %{count} matching identifiers and must have exactly one."

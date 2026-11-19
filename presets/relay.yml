@@ -1,0 +1,5 @@
+rules:
+  pagination-arguments: error
+  connection-type-structure: error
+  edge-type-structure: error
+  page-info-structure: error

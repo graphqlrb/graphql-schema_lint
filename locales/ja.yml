@@ -1,0 +1,127 @@
+rules:
+  alphabetize:
+    violation: "%{coordinate} の並び順が規約に合っていません。"
+    suggestions:
+      violation: "%{order} の順に並べてください。"
+  connection-type-structure:
+    violation: "%{coordinate} は Connection 型の構造要件を満たしていません。"
+    suggestions:
+      violation: "オブジェクト型を使い、必要な要素を定義してください（%{expected}）。"
+  deprecation-reason-format:
+    violation: "%{coordinate} の非推奨理由が指定した書式に合っていません。"
+    missing_replacement: "%{coordinate} の非推奨理由で有効な代替要素を参照していません。"
+    suggestions:
+      violation: "非推奨理由を指定した書式で書いてください。"
+      missing_replacement: "非推奨でない要素の名前をバッククォートで囲んでください。"
+  description-format:
+    capitalized: "%{coordinate} の説明文が小文字で始まっています。"
+    end_with_period: "%{coordinate} の説明文に終止符がありません。"
+    max_length: "%{coordinate} の説明文が %{max} 文字を超えています。"
+    forbidden_pattern: "%{coordinate} の説明文が禁止パターンに一致しています。"
+    suggestions:
+      capitalized: "先頭の英字を大文字にしてください。"
+      end_with_period: "説明文をピリオドか句点で終えてください。"
+      max_length: "説明文を短くしてください。"
+      forbidden_pattern: "禁止パターンに一致する部分を削除してください。"
+  description-style:
+    violation: "%{coordinate} の説明文が指定した文字列形式で書かれていません。"
+    suggestions:
+      violation: "説明文の文字列形式を %{style} にそろえてください。"
+  directive-usage:
+    required: "%{coordinate} に有効な @%{directive} 指令が必要です。"
+    forbidden: "%{coordinate} で @%{directive} 指令を使えません。"
+    unknown: "Schema に @%{directive} の定義がないため、この指令の利用規約をスキップしました。"
+    custom: "%{text}"
+    suggestions:
+      required: "指定した引数で @%{directive} を付けてください。"
+      forbidden: "@%{directive} を削除してください。"
+      unknown: "指令の名前を確認し、指令定義を含めてください。"
+      custom: "指令の利用規約に合うように定義を見直してください。"
+  edge-type-structure:
+    violation: "%{coordinate} は Edge 型の構造要件を満たしていません。"
+    suggestions:
+      violation: "Edge 型の要件を満たすように型を定義してください（%{expected}）。"
+  mutation-input-argument:
+    violation: "%{coordinate} の引数が指定した入力オブジェクトにまとまっていません。"
+    suggestions:
+      violation: "%{argument}: %{expected} を使い、許可された追加引数だけを残してください。"
+  mutation-payload-fields:
+    required: "%{coordinate} に要件を満たす %{field} フィールドがありません。"
+    query: "%{coordinate} に Query のルート型を返すフィールドがありません。"
+    forbidden: "%{coordinate} に禁止された %{field} フィールドがあります。"
+    suggestions:
+      required: "Payload 型に %{signature} を追加してください。"
+      query: "%{query_type} を返すフィールドを追加してください。"
+      forbidden: "%{field} を削除してください。"
+  mutation-payload-type:
+    kind: "%{coordinate} は Mutation の戻り値に許可されていない型を返しています。"
+    list: "%{coordinate} は単一の Payload 型ではなくリストを返しています。"
+    name: "%{coordinate} の Payload 型の名前が規約に合っていません。"
+    shared: "%{coordinate} の Payload 型を他の Mutation と共有しています。"
+    nullability: "%{coordinate} の Payload 型は %{mode} で返してください。"
+    suggestions:
+      kind: "%{expected} のような専用の Payload 型を返してください。"
+      list: "専用の Payload 型の中にリストを置いてください。"
+      name: "Payload 型を %{expected} にしてください。"
+      shared: "Mutation ごとに専用の Payload 型を定義してください。"
+      nullability: "戻り値の最も外側の Null 許容を変更してください。"
+  naming-convention:
+    violation: "%{coordinate} の名前が規約に合っていません。"
+    configured: "%{coordinate} の名前が規約に合っていません。"
+    suggestions:
+      violation: "%{replacement} のような名前にしてください。"
+      configured: "設定した命名規則に合う名前にしてください。"
+  no-empty-description:
+    violation: "%{coordinate} の説明文が空です。"
+    suggestions:
+      violation: "この要素の意味を説明するか、空の説明文を削除してください。"
+  no-hashtag-description:
+    violation: "%{coordinate} の直前にコメントがあります。コメントは Schema に含まれません。"
+    suggestions:
+      violation: "コメントを GraphQL の説明文に置き換えてください。"
+  no-typename-prefix:
+    violation: "%{coordinate} はフィールド名の先頭で型名を繰り返しています。"
+    suggestions:
+      violation: "%{replacement} のように型名を除いた名前にしてください。"
+  no-unpaginated-list:
+    violation: "%{coordinate} はページネーションせずリストを返しています。"
+    suggestions:
+      violation: "%{type}Connection のような型を返し、ページネーション引数を追加してください。"
+  no-unreachable-types:
+    violation: "%{coordinate} にルート型から到達できません。"
+    unused: "%{coordinate} が Schema のどの要素にも適用されていません。"
+    suggestions:
+      violation: "この型を削除するか、到達可能な要素からこの型を使ってください。"
+      unused: "指令定義を削除するか、意図した要素に指令を適用してください。"
+  page-info-structure:
+    missing: "%{coordinate} は Connection 型ですが、Schema に %{name} がありません。"
+    violation: "%{coordinate} は PageInfo 型の構造要件を満たしていません。"
+    suggestions:
+      missing: "ページ有無のフラグとカーソルを持つオブジェクト %{name} を定義してください。"
+      violation: "PageInfo 型に必要な要素を定義してください（%{expected}）。"
+  pagination-arguments:
+    violation: "%{coordinate} に必要なページネーション引数がそろっていません。"
+    suggestions:
+      violation: "次の引数を追加または修正してください（%{arguments}）。"
+  require-deprecation-date:
+    violation: "%{coordinate} の削除予定日がありません。"
+    overdue: "%{coordinate} は削除予定日（%{date}）を過ぎています。"
+    suggestions:
+      violation: "指定した日付形式で削除予定日を書いてください。"
+      overdue: "非推奨の要素を削除するか、削除予定日を更新してください。"
+  require-deprecation-reason:
+    violation: "%{coordinate} は非推奨ですが、理由がありません。"
+    suggestions:
+      violation: "非推奨にした理由と、代わりに使う要素を書いてください。"
+  require-description:
+    violation: "%{coordinate} に説明文がありません。"
+    suggestions:
+      violation: "定義の前に GraphQL の説明文を書いてください。"
+  root-field-nullability:
+    violation: "%{coordinate} の戻り値は %{mode} で返してください。"
+    suggestions:
+      violation: "戻り値の型を %{type} にしてください。"
+  strict-id-in-types:
+    violation: "%{coordinate} に要件を満たす識別子が %{count} 個あります。識別子は1個必要です。"
+    suggestions:
+      violation: "許可された名前と型の識別子を1個だけ定義してください。"

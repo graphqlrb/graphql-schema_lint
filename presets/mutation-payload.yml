@@ -1,0 +1,3 @@
+rules:
+  mutation-payload-type: error
+  mutation-input-argument: error

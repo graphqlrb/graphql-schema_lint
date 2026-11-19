@@ -1,0 +1,157 @@
+---
+naming-convention:
+  invalid: 'type Query { user: legacy_user } type legacy_user { id: ID }'
+  valid: 'type Query { user: HTTPRequest } type HTTPRequest { id: ID }'
+  options: {}
+  coordinates:
+  - legacy_user
+no-typename-prefix:
+  invalid: 'type Query { user: User } type User { userName: String }'
+  valid: 'type Query { user: User } type User { name: String }'
+  options: {}
+  coordinates:
+  - User.userName
+require-description:
+  invalid: 'type Query { id: ID }'
+  valid: '"The query." type Query { id: ID }'
+  options: {}
+  coordinates:
+  - Query
+no-empty-description:
+  invalid: '"　" type Query { id: ID }'
+  valid: '"The query." type Query { id: ID }'
+  options: {}
+  coordinates:
+  - Query
+description-style:
+  invalid: '"The query." type Query { id: ID }'
+  valid: '"""The query.""" type Query { id: ID }'
+  options: {}
+  coordinates:
+  - Query
+description-format:
+  invalid: '"queries" type Query { id: ID }'
+  valid: '"検索" type Query { id: ID }'
+  options: {}
+  coordinates:
+  - Query
+no-hashtag-description:
+  invalid: |-
+    # Finds a user.
+    type Query { id: ID }
+  valid: |-
+    # A comment.
+
+    type Query { id: ID }
+  options: {}
+  coordinates:
+  - Query
+require-deprecation-reason:
+  invalid: 'type Query { old: ID @deprecated new: ID }'
+  valid: 'type Query { old: ID @deprecated(reason: "Use `new`.") new: ID }'
+  options: {}
+  coordinates:
+  - Query.old
+deprecation-reason-format:
+  invalid: 'type Query { old: ID @deprecated(reason: "Use `other`.") new: ID }'
+  valid: 'type Query { old: ID @deprecated(reason: "Use `Query.new`.") new: ID }'
+  options:
+    require_replacement_reference: true
+  coordinates:
+  - Query.old
+require-deprecation-date:
+  invalid: 'type Query { old: ID @deprecated(reason: "Remove on 2025-01-01") new: ID }'
+  valid: 'type Query { old: ID @deprecated(reason: "Remove on 2030-01-01") new: ID }'
+  options: {}
+  coordinates:
+  - Query.old
+mutation-payload-type:
+  invalid: 'type Query { id: ID } type Mutation { cancel: Boolean }'
+  valid: 'type Query { id: ID } type Mutation { cancel: CancelPayload } type CancelPayload { ok: Boolean }'
+  options: {}
+  coordinates:
+  - Mutation.cancel
+mutation-input-argument:
+  invalid: 'type Query { id: ID } type Mutation { cancel(id: ID): Boolean }'
+  valid: 'type Query { id: ID } type Mutation { cancel(input: CancelInput!): Boolean } input CancelInput { id: ID }'
+  options: {}
+  coordinates:
+  - Mutation.cancel
+mutation-payload-fields:
+  invalid: 'type Query { id: ID } type Mutation { cancel: CancelPayload } type CancelPayload { ok: Boolean }'
+  valid: 'type Query { id: ID } type Mutation { cancel: CancelPayload } type CancelPayload { message: String! }'
+  options:
+    required_fields:
+    - name: message
+      type: String!
+  coordinates:
+  - CancelPayload
+pagination-arguments:
+  invalid: 'type Query { users(first: Int): UserConnection } type UserConnection { count: Int }'
+  valid: 'type Query { users(last: Int!, before: String): UserConnection } type UserConnection { count: Int }'
+  options: {}
+  coordinates:
+  - Query.users
+no-unpaginated-list:
+  invalid: 'type Query { users: [User] } type User { id: ID }'
+  valid: 'type Query { ids: [ID] }'
+  options: {}
+  coordinates:
+  - Query.users
+connection-type-structure:
+  invalid: 'type Query { users: UserConnection } type UserConnection { edges: [UserEdge] pageInfo: PageInfo } type UserEdge { node: ID } type PageInfo { hasNextPage: Boolean! }'
+  valid: 'type Query { users: UserConnection } type UserConnection { edges: [UserEdge] pageInfo: PageInfo! } type UserEdge { node: ID } type PageInfo { hasNextPage: Boolean! }'
+  options: {}
+  coordinates:
+  - UserConnection
+edge-type-structure:
+  invalid: 'type Query { user: UserEdge } type UserEdge { cursor: String! node: [ID] }'
+  valid: 'type Query { user: UserEdge } type UserEdge { cursor: String! node: ID }'
+  options: {}
+  coordinates:
+  - UserEdge
+page-info-structure:
+  invalid: 'type Query { users: UserConnection } type UserConnection { count: Int }'
+  valid: 'type Query { users: UserConnection } type UserConnection { pageInfo: PageInfo! } type PageInfo { hasNextPage: Boolean! hasPreviousPage: Boolean! startCursor: String endCursor: String }'
+  options: {}
+  coordinates:
+  - UserConnection
+strict-id-in-types:
+  invalid: 'type Query { user: User } type User { id: String! }'
+  valid: 'type Query { user: User } type User { id: ID! }'
+  options: {}
+  coordinates:
+  - User
+no-unreachable-types:
+  invalid: 'type Query { id: ID } type Orphan { id: ID }'
+  valid: 'type Query { user: Person } interface Person { id: ID } type User implements Person { id: ID }'
+  options: {}
+  coordinates:
+  - Orphan
+alphabetize:
+  invalid: 'type Query { zebra: Int aardvark: Int }'
+  valid: 'type Query { aardvark: Int zebra: Int }'
+  options: {}
+  coordinates:
+  - Query.zebra
+root-field-nullability:
+  invalid: 'type Query { id: ID! }'
+  valid: 'type Query { id: ID }'
+  options: {}
+  coordinates:
+  - Query.id
+directive-usage:
+  invalid: 'directive @auth(role: String) on FIELD_DEFINITION type Query { me: ID @auth(role: "member") }'
+  valid: 'directive @auth(role: String) on FIELD_DEFINITION type Query { me: ID @auth(role: "admin") }'
+  options:
+    requirements:
+    - directive: auth
+      action: require
+      kinds:
+      - field
+      targets:
+      - Query.*
+      arguments:
+        role: "\\Aadmin\\z"
+  coordinates:
+  - Query.me

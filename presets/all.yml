@@ -1,0 +1,12 @@
+extends: [recommended, relay, mutation-payload]
+rules:
+  description-style: warning
+  description-format: warning
+  deprecation-reason-format: warning
+  require-deprecation-date: warning
+  mutation-payload-fields: error
+  no-unpaginated-list: warning
+  strict-id-in-types: warning
+  alphabetize: warning
+  root-field-nullability: warning
+  directive-usage: error

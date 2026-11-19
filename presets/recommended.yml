@@ -1,0 +1,8 @@
+rules:
+  naming-convention: error
+  no-typename-prefix: warning
+  require-description: warning
+  no-empty-description: error
+  no-hashtag-description: warning
+  require-deprecation-reason: error
+  no-unreachable-types: warning
